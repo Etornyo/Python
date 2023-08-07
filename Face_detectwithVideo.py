@@ -26,7 +26,11 @@ while True:
 
      cv2.imshow('Face_Detector',frame) 
      # Pauses execution of code until you press a button then it closes
-     cv2.waitKey(1) 
+     key = cv2.waitKey(1) 
+     
+     #quitting from the endless loop when Q is pressed
+     if key == 81 or key == 113:
+         break
     
 
 """
