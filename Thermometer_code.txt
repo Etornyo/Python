@@ -1,0 +1,91 @@
+#include <reg51.h>
+
+// Define LCD control signals
+sbit RS = P2^0;   // Register select signal
+sbit RW = P2^1;   // Read/Write signal
+sbit EN = P2^2;   // Enable signal
+
+// Function to initialize the LCD
+void LCD_Init() {
+    delay_ms(20);   // Wait for LCD to power up
+    
+    // Initialize LCD in 4-bit mode
+    LCD_Command(0x02);  // 4-bit mode
+    LCD_Command(0x28);  // 2 lines, 5x7 matrix
+    LCD_Command(0x0E);  // Display ON, cursor ON
+    LCD_Command(0x01);  // Clear display
+    LCD_Command(0x80);  // Move cursor to the beginning of the first line
+}
+
+// Function to send commands to LCD
+void LCD_Command(unsigned char cmd) {
+    LCD_Data_Port = (LCD_Data_Port & 0x0F) | (cmd & 0xF0);  // Send higher nibble
+    RS = 0;     // Select command register
+    RW = 0;     // Write mode
+    EN = 1;     // Enable LCD
+    delay_us(1);
+    EN = 0;     // Disable LCD
+    
+    delay_us(100);
+    
+    LCD_Data_Port = (LCD_Data_Port & 0x0F) | (cmd << 4);    // Send lower nibble
+    EN = 1;     // Enable LCD
+    delay_us(1);
+    EN = 0;     // Disable LCD
+    
+    delay_ms(2);
+}
+
+// Function to send data to LCD
+void LCD_Data(unsigned char dat) {
+    LCD_Data_Port = (LCD_Data_Port & 0x0F) | (dat & 0xF0);  // Send higher nibble
+    RS = 1;     // Select data register
+    RW = 0;     // Write mode
+    EN = 1;     // Enable LCD
+    delay_us(1);
+    EN = 0;     // Disable LCD
+    
+    delay_us(100);
+    
+    LCD_Data_Port = (LCD_Data_Port & 0x0F) | (dat << 4);    // Send lower nibble
+    EN = 1;     // Enable LCD
+    delay_us(1);
+    EN = 0;     // Disable LCD
+    
+    delay_ms(2);
+}
+
+// Function to display temperature on LCD
+void Display_Temperature(unsigned int temp) {
+    char temp_str[6];
+    sprintf(temp_str, "Temp: %dC", temp);
+    
+    LCD_Command(0x01);  // Clear display
+    LCD_Command(0x80);  // Move cursor to the beginning of the first line
+    for (int i = 0; temp_str[i] != '\0'; i++) {
+        LCD_Data(temp_str[i]);
+    }
+}
+
+// Function to read temperature from the sensor
+unsigned int Read_Temperature() {
+    // Code to read temperature from sensor and convert it to Celsius
+    // Replace this with your actual sensor reading and conversion logic
+    // For example, if you are using LM35 sensor:
+    // unsigned int raw_value = analog_read();  // Replace with actual ADC reading
+    // unsigned int temp = ((raw_value * 500) / 1024);  // LM35 scaling
+    // return temp;
+    
+    return 25;  // Placeholder value for demonstration
+}
+
+void main() {
+    LCD_Init();
+    
+    while (1) {
+        unsigned int temperature = Read_Temperature();
+        Display_Temperature(temperature);
+        
+        delay_ms(1000);  // Delay before updating the temperature reading
+    }
+}

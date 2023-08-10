@@ -1,0 +1,71 @@
+#include <reg51.h>
+
+// Define LED pins
+sbit LED_Positive = P1^0;
+sbit LED_Negative = P1^1;
+
+// Define Button pins
+sbit Button = P3^2;
+
+// Define Hormone Sensor input pin
+sbit HormoneSensor = P0^0;
+
+// Function to initialize the microcontroller
+void Initialize() {
+    LED_Positive = 0; // Clear LED
+    LED_Negative = 0; // Clear LED
+}
+
+// Function to read hormone levels from the sensor
+unsigned int ReadHormoneLevels() {
+    unsigned int hormoneLevel;
+    
+    // Configure ADC
+    ADCON = 0x80;   // Turn on ADC and set conversion clock to Fosc/32
+    P1ASF = 0x01;   // Set P1.0 as analog input
+    
+    // Start ADC conversion
+    ADCF = 0x00;    // Clear ADC result flags
+    ADCCON0 = 0x01; // Start ADC conversion on channel 0
+    
+    // Wait for ADC conversion to complete
+    while (!ADCF);
+    
+    // Read ADC result
+    hormoneLevel = ADCH;
+    
+    // Turn off ADC
+    ADCON = 0x00;   // Turn off ADC
+    
+    return hormoneLevel;
+}
+
+}
+
+// Function to check for pregnancy based on hormone levels
+unsigned char CheckPregnancy() {
+    unsigned int hormoneLevel = ReadHormoneLevels();
+    
+    // Define a threshold value for positive pregnancy detection
+    unsigned int threshold = 800; // Adjust this based on your sensor's characteristics
+    
+    if (hormoneLevel >= threshold) {
+        return 1; // Positive result
+    }
+    
+    return 0; // Negative result
+}
+
+void main() {
+    Initialize();
+    
+    while (1) {
+        if (CheckPregnancy()) {
+            LED_Positive = 1; // Turn on Positive LED
+            LED_Negative = 0; // Turn off Negative LED
+        } else {
+            LED_Positive = 0; // Turn off Positive LED
+            LED_Negative = 1; // Turn on Negative LED
+        }
+    }
+}

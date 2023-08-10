@@ -1,0 +1,38 @@
+#include <reg51.h>
+
+// Define LCD control signals
+sbit RS = P2^0;
+sbit RW = P2^1;
+sbit EN = P2^2;
+
+// Define LM35 temperature sensor input pin
+sbit LM35_Input = P1^0;
+
+// Define Reset button pin
+sbit ResetButton = P3^3;
+
+// ... (Other LCD-related functions and Read_Temperature function from the previous code)
+
+// Function to reset the LCD display
+void Reset_Display() {
+    LCD_Command(0x01); // Clear display
+    LCD_Command(0x80); // Move cursor to the beginning of the first line
+}
+
+void main() {
+    LCD_Init();
+    
+    while (1) {
+        if (ResetButton == 0) {
+            delay_ms(50); // Debounce delay
+            while (ResetButton == 0);
+            
+            Reset_Display(); // Call the function to reset the display
+        } else {
+            unsigned int temperature = Read_Temperature();
+            Display_Temperature(temperature);
+        }
+        
+        delay_ms(1000); // Delay before updating the temperature reading
+    }
+}
