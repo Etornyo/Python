@@ -1,0 +1,2 @@
+Still running errors in the code
+bot = updater.bot
