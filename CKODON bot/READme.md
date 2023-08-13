@@ -48,6 +48,7 @@ To run the CKODON Library Archive Bot, follow these steps:
 ## Configuration
 
 In the `Ckodon_lib_bot.py` script, you need to provide your Telegram bot token and Google Drive API key. Replace the placeholders in the code with your actual keys.
+The python-telegram-bot used was the 13.7. using a 20.4 requires a few changes to some of the built in functions such as the "Filters" used should be "filters" with a lower case
 
 ```python
 TOKEN = 'YOUR_BOT_TOKEN'
