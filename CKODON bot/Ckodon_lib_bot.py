@@ -33,9 +33,9 @@ def start(update: Update, context: CallbackContext):
 # Creating buttons
 def send_inline_buttons(update: Update, context: CallbackContext):
     buttons = [
-        [InlineKeyboardButton("Button 1", callback_data="btn1"),
-        InlineKeyboardButton("Button 2", callback_data="btn2")],
-        [InlineKeyboardButton("Button 3", callback_data="btn3")]
+        [InlineKeyboardButton("Videos", callback_data="btn1"),
+        InlineKeyboardButton("PDFs", callback_data="btn2")],
+        [InlineKeyboardButton("More Info", callback_data="btn3")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     update.message.reply_text("Click the button below:", reply_markup=reply_markup)
