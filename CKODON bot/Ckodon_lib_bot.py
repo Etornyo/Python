@@ -16,9 +16,9 @@ GOOGLE_DRIVE_API_KEY = 'YOUR_GOOGLE_DRIVE_API_KEY'
 
 # For Pdf listing and naming
 pdf_list = [
-    {"title": "PDF 1", "url": "URL_1"},
-    {"title": "PDF 2", "url": "URL_2"},
-    {"title": "PDF 3", "url": "URL_3"}
+    {"title": "Reading", "url": "URL_1"},
+    {"title": "Writing", "url": "URL_2"},
+    {"title": "Math", "url": "URL_3"}
     ]
 
 
@@ -33,8 +33,8 @@ def start(update: Update, context: CallbackContext):
 # Creating buttons
 def send_inline_buttons(update: Update, context: CallbackContext):
     buttons = [
-        [InlineKeyboardButton("Videos", callback_data="btn1"),
-        InlineKeyboardButton("PDFs", callback_data="btn2")],
+        [InlineKeyboardButton("Videos", callback_data="Video"),
+        InlineKeyboardButton("PDFs", callback_data="pdfs")],
         [InlineKeyboardButton("More Info", callback_data="btn3")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -46,7 +46,7 @@ def send_inline_buttons(update: Update, context: CallbackContext):
 # Connects users to the Google drive via URL. Still working on the button
 def get_video(update: Update, context: CallbackContext):
     buttons = [
-        [InlineKeyboardButton("Watch Video", callback_data="watch_video")]
+        [InlineKeyboardButton("Video", callback_data="watch_video")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     update.message.reply_text("Click the button below to watch the video:", reply_markup=reply_markup)
@@ -71,24 +71,26 @@ def button_click(update: Update, context: CallbackContext):
     button_data = query.data
     
     # For video button
-    if button_data == "watch_video":
-        video_link = "YOUR_VIDEO_LINK"  
-        video_message = "Click the link to watch the video:\n" + video_link
-        query.message.reply_text(video_message)
+    if button_data == "Video":
+        get_video(update, context) # calling get_video fuction
+        # video_link = "YOUR_VIDEO_LINK"  
+        # video_message = "Click the link to watch the video:\n" + video_link
+        # query.message.reply_text(video_message)
         
         
+    elif button_data == "pdfs":
+        get_pdf(update, context)  # Call the get_pdf function
+        # Send all PDFs as documents
+        # for pdf in pdf_list:
+            # query.message.reply_document(document=pdf["url"], caption=pdf["title"])
+
     elif button_data == "all_pdfs":
         # Send all PDFs as documents
         for pdf in pdf_list:
             query.message.reply_document(document=pdf["url"], caption=pdf["title"])
-
-    else:
-        # Send the selected PDF
-        for pdf in pdf_list:
-            if button_data == pdf["url"]:
-                query.message.reply_document(document=pdf_url, caption="Selected PDF")
-                break
     
+    else:
+        get_info(update, context)
 
 
 
