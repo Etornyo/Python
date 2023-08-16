@@ -35,7 +35,7 @@ def send_inline_buttons(update: Update, context: CallbackContext):
     buttons = [
         [InlineKeyboardButton("Videos", callback_data="Video"),
         InlineKeyboardButton("PDFs", callback_data="pdfs")],
-        [InlineKeyboardButton("More Info", callback_data="btn3")]
+        [InlineKeyboardButton("More Info", callback_data="info")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     update.message.reply_text("Click the button below:", reply_markup=reply_markup)
@@ -46,7 +46,7 @@ def send_inline_buttons(update: Update, context: CallbackContext):
 # Connects users to the Google drive via URL. Still working on the button
 def get_video(update: Update, context: CallbackContext):
     buttons = [
-        [InlineKeyboardButton("Video", callback_data="watch_video")]
+        [InlineKeyboardButton("Video", callback_data="https://drive.google.com/file/d/1qJs-aYfFiMZXKgJ1lpNns03_DwJMhtFb/view?usp=drive_link")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     update.message.reply_text("Click the button below to watch the video:", reply_markup=reply_markup)
@@ -64,6 +64,14 @@ def get_pdf(update: Update, context: CallbackContext):
     
     reply_markup = InlineKeyboardMarkup(buttons)
     update.message.reply_text("Please choose a PDF:", reply_markup=reply_markup)
+    
+    
+    # Get info function 
+def get_info(update: Update, context: CallbackContext):
+    query = update.message.text
+    # Process the query and provide relevant information
+    response = "Here's the information you requested: ..."
+    update.message.reply_text(response)
 
 # Response to the button clicked by the user
 def button_click(update: Update, context: CallbackContext):
@@ -95,11 +103,7 @@ def button_click(update: Update, context: CallbackContext):
 
 
 
-def get_info(update: Update, context: CallbackContext):
-    query = update.message.text
-    # Process the query and provide relevant information
-    response = "Here's the information you requested: ..."
-    update.message.reply_text(response)
+
 
 def main():
     updater = Updater(token=TOKEN, use_context=True)
