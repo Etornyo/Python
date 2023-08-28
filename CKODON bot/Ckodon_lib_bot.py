@@ -31,8 +31,8 @@ def start(update: Update, context: CallbackContext):
     
 
 # Creating buttons
-def send_inline_buttons(update: Update, context: CallbackContext):
-    buttons = [
+async def send_inline_buttons(update: Update, context: CallbackContext):
+    await buttons = [
         [InlineKeyboardButton("Videos", callback_data="Video"),
         InlineKeyboardButton("PDFs", callback_data="pdfs")],
         [InlineKeyboardButton("More Info", callback_data="info")]
@@ -44,8 +44,8 @@ def send_inline_buttons(update: Update, context: CallbackContext):
 
     
 # Connects users to the Google drive via URL. Still working on the button
-def get_video(update: Update, context: CallbackContext):
-    buttons = [
+async def get_video(update: Update, context: CallbackContext):
+    await buttons = [
         [InlineKeyboardButton("Video", callback_data="https://drive.google.com/file/d/1qJs-aYfFiMZXKgJ1lpNns03_DwJMhtFb/view?usp=drive_link")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -54,9 +54,9 @@ def get_video(update: Update, context: CallbackContext):
 
 
 # Workings on PDF
-def get_pdf(update: Update, context: CallbackContext):
+async def get_pdf(update: Update, context: CallbackContext):
     # Creating buttons for the various PDFs. Total number of PDFs = total number of buttons + button for all PDFS
-    buttons = []
+    await buttons = []
     for pdf in pdf_list:
         buttons.append([InlineKeyboardButton(pdf["title"], callback_data=pdf["url"])])
     
