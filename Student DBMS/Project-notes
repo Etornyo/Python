@@ -1,0 +1,19 @@
+We will always create the pyproject.toml file in order to install dependencies for the project
+What we don't add, we type 'poetry add [dependencies]' and it would be included in the '.toml'
+
+main.py
+Next is the 'main.py'
+This is what we will run using the commmand 'uvicorn main.app'/ 'uvicorn main.app --reload' / 'uvicorn [path].main.app --reload'
+We use the 'main.py' to test the response of what we have done. More like the 'print' statement in python
+the ':app' in main.py used is only as a result of the variable we are using inside the main.py
+
+'__init__.py'
+create this python file and place in all but one directory. Namely; 'database','models','schema','route','dependencies'
+
+Database
+In creating the database, we use the sqlite but you need to create tables which is like individual python files and place the file in places where needed
+Table [Files] are placed in the 'models','routers' and 'schema' directories
+when you define the class and connect it to 'models' using the 'from [path] import [what you will use in code]'
+The table name comes after as '__tabelname__="[name]"'
+Format
+python rep for data type    =       one for sqlite

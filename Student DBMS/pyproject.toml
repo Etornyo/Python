@@ -1,0 +1,22 @@
+# file name should always be called 'pyproject.toml'
+# file for creating tools,dependencies & build system for project
+[tool.poetry]
+name = "Student_DBMS"
+version = "0.1.0"
+description = " "
+authors = ["Etornyo Kwame Dzeke <etordzeke@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.0"
+uvicorn = "^0.23.2"
+sqlalchemy = "^2.0.20"
+email-validator = "^2.0.0.post2"
+
+[build-system]
+requires = ["poetry-core >= 1.2.0"]
+build-backend = "poetry.core.masonary.api"
+
+
+# Install 'poetry' by using 'pip install pipx'. Followed by 'pipx install poetry'
+# Run 'poetry install' next on terminal
