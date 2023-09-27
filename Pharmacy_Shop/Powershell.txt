@@ -1,0 +1,3 @@
+Powershell For ISO
+command
+Mount-DiskImage -Imagepath ["pathname"]      use the cotation marks

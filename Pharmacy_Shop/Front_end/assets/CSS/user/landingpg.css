@@ -1,0 +1,114 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.container{
+    width: 100% ;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(12, 8, 49, 0.65),#06478d), url("/assets/Pics/ceyda-ciftci-6MGhkYEgmwk-unsplash.jpg") ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.row{
+    width: 100%;
+    padding: 0px 80px;
+}
+
+.navbar{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    position: relative;
+    z-index: 1;
+}
+
+.navbar ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+} 
+
+.navbar ul li{
+    list-style: none;
+}
+
+.navbar ul li a{
+    padding: 10px 18px;
+    border-radius: 5px;
+    font-family: sans-serif;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navbar ul li a:hover{
+    background-color:  rgb(2, 68, 174);
+    
+}
+
+.navbar h1{
+    color: rgb(223, 240, 242);
+    font-size: 35px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-top: 10px ;
+    padding-left: 40px;
+}
+
+.content{
+    width: 100%;
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.content h1{
+    font-size: 45px;
+    color: aliceblue;
+    font-weight:  400 bold;  
+    text-transform: uppercase;
+
+}
+
+.content p{
+    font-size: 35px;
+    color: aliceblue;
+    font-weight:  400;
+    text-transform: uppercase;
+
+}
+
+.container a{
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 19px;
+    display: inline-block;
+    letter-spacing: 2px;
+    padding: 12px 20px;
+    background-color: rgb(11, 75, 179);
+    border-radius: 5px;
+    color: wheat;
+}
+
+.container a:hover{
+    opacity: 0.5 ;
+}
+
+.container a:active{
+    opacity: 1;
+}

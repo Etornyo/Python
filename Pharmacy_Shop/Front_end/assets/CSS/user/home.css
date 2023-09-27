@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left:0; /*width of sidebar set as -25%*/
+    height: 100%;
+    width: 260px;
+    background:  #243B55;
+}
+
+.sidebar .logo-details{
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .logo-details img{
+    font-size: 30px;
+    color: #fff;
+    background-color: aqua;
+    height: 50px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+    
+
+}
+
+.sidebar .logo-details .logo_name{
+    font-size: 22px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.sidebar .nav-link{
+    background: red;
+    height: 100%;
+    padding-top: 30px;
+}
+
+.sidebar .nav-link li{
+    position: relative;
+    list-style: none;
+}
+
+.sidebar .nav-link li img{
+    height: 45px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    
+}
+
+/* search bar */
+.box{
+    height: 30px;
+    display: flex;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: aliceblue;
+    border-radius: 30px;
+    align-items: center;
+    box-shadow: 0 10px 25px;
+}
+
+.box:hover input{
+    width: 300px;
+}
+
+.box input{
+    width: 0px;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    transition: 0.8s;
+    background: transparent;
+
+}
+
+.box a .fas{
+    color: #1daf;
+    font-size: 180x;
+}

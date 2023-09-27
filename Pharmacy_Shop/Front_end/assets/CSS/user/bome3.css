@@ -1,0 +1,170 @@
+:root {
+    --white: #fff;
+    --blue: #141E30;
+    --dark-blue: #243B55;
+    --background: #141E30; /* Add a background color variable */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+/* Styles for the container and sidebar */
+.container {
+    display: grid;
+    grid-template-columns: 200px auto;
+    height: 100vh;
+}
+
+.sidebar {
+    background-color: var(--white);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 200px; /* Initial width */
+    overflow-x: hidden;
+    transition: width 0.5s; /* Transition width for smooth expansion/collapse */
+    height: 100%;
+}
+
+.logo-detail {
+    display: flex;
+    align-items: center;
+}
+
+.logo-detail img {
+    width: 30px; /* Adjust as needed */
+    height: 30px; /* Adjust as needed */
+    margin-right: 10px;
+}
+
+.nav-link {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.nav-link li {
+    padding: 10px 0;
+}
+
+.nav-link a {
+    text-decoration: none;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+}
+
+.nav-link a img {
+    margin-right: 10px;
+}
+
+.nav-link .active {
+    color: var(--dark-blue);
+    border-right: 2px solid var(--dark-blue);
+}
+
+/* Styles for the button or icon */
+.toggle-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+}
+
+/* Styles for the expanded button or icon */
+.toggle-button.expanded {
+    left: 260px; /* Adjust as needed */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: auto; /* Stack sidebar and content vertically */
+    }
+
+    .sidebar {
+        width: 100%; /* Take up full width for responsiveness */
+    }
+}
+
+/* Styles for the content (including search bar) */
+.content {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    color: var(--white);
+    padding: 20px;
+}
+
+header {
+    max-height: 300px; /* Adjust as needed */
+    overflow: hidden;
+}
+
+header img {
+    width: 100%;
+    height: auto;
+}
+
+main {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.content .search-bar .box {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: var(--white);
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: width 0.8s;
+}
+
+/* Styles for the input inside the search bar */
+.content .search-bar .box input {
+    width: 0;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    transition: 0.8s;
+    background: red;
+    color: var(--white);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Styles for the search icon */
+.content .search-bar .box a .fas {
+    color: var(--blue);
+    font-size: 18px;
+}
+
+/* Expand the search input on hover while maintaining border radius */
+.content .search-bar .box:hover input {
+    width: 200px; /* Adjust the width as needed */
+}
+
+/* Styles for the product list */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Add styles for product cards here */
+}
