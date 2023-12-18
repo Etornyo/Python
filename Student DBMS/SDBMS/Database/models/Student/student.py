@@ -1,11 +1,13 @@
 from datetime import date
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
+
+# Local import
 from SDBMS.Database.core import Base
 
 
 class User ( Base ):
-    __table__ = "users"
+    __table__ = "student"
     # python rep for data type    =       one for sqlite
     id: Mapped[int] = mapped_column ( primary_key=True )
     username: Mapped[str] = mapped_column ( String, nullable=False )

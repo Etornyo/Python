@@ -1,5 +1,4 @@
-from sqlalchemy import String
-from sqlalchemy import ForeignKey
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 

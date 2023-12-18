@@ -1,0 +1,55 @@
+import csv
+import datetime
+
+# Create a list of dictionaries, each representing a candlestick
+candlestick_data = [
+    {
+        'Timestamp': '2023-11-01 00:00:00',
+        'Open': 100.00,
+        'High': 105.00,
+        'Low': 95.00,
+        'Close': 102.50
+    },
+    {
+        'Timestamp': '2023-11-02 00:00:00',
+        'Open': 102.50,
+        'High': 110.00,
+        'Low': 100.00,
+        'Close': 108.00
+    },
+    {
+        'Timestamp': '2023-11-03 00:00:00',
+        'Open': 108.00,
+        'High': 112.50,
+        'Low': 106.00,
+        'Close': 110.75
+    },
+    {
+        'Timestamp': '2023-11-04 00:00:00',
+        'Open': 110.75,
+        'High': 115.00,
+        'Low': 108.50,
+        'Close': 112.80
+    },
+    {
+        'Timestamp': '2023-11-05 00:00:00',
+        'Open': 112.80,
+        'High': 120.00,
+        'Low': 110.50,
+        'Close': 118.50
+    },
+    # Add more candlestick data as needed
+]
+
+# Specify the CSV file name
+csv_file = 'candlestick_data.csv'
+
+# Write the candlestick data to the CSV file
+with open(csv_file, 'w', newline='') as file:
+    fieldnames = ['Timestamp', 'Open', 'High', 'Low', 'Close']
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+    writer.writeheader()  # Write the header row
+
+    for candlestick in candlestick_data:
+        writer.writerow(candlestick)  # Write each candlestick's data

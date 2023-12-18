@@ -1,4 +1,4 @@
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped,mapped_column
 
 def Program():
@@ -6,4 +6,4 @@ def Program():
 
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    General_Science: Mapped[str] = mapped_column(String,nullable=False)
+    program_name: Mapped[str] = mapped_column(String,nullable=False)
