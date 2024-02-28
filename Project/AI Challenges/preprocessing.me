@@ -1,0 +1,30 @@
+import pandas as pd
+
+df = pd.read_csv('data.csv')
+from sklearn.impute import SimpleImputer
+
+imputer = SimpleImputer(strategy='median')
+X = imputer.fit_transform(df.drop('target', axis=1))
+y = df['target']
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+from sklearn.preprocessing import OneHotEncoder
+
+encoder = OneHotEncoder(sparse=False)
+X = encoder.fit_transform(X[:, [0]])
+X = np.hstack((X, X[:, 1:]))
+
+from sklearn.feature_selection import SelectKBest, f_classif
+
+selector = SelectKBest(score_func=f_classif, k=10)
+X = selector.fit_transform(X, y)
+
+#SMOTE
+from imblearn.over_sampling import SMOTE
+
+smote = SMOTE(random_state=42)
+X, y = smote.fit_resample(X, y)

@@ -1,0 +1,34 @@
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score, roc_auc_score
+
+Preprocessing data here
+
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+#Random Forest model
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+
+#Predicton making
+y_pred = rf.predict(X_test)
+print("Accuracy: ", accuracy_score(y_test, y_pred))
+print("AUC: ", roc_auc_score(y_test, rf.predict_proba(X_test)[:, 1]))
+
+#HyperParameter
+param_grid = {'n_estimators': [100, 200, 300], 'max_depth': [None, 10, 20], 'min_samples_split': [2, 5, 10], 'min_samples_leaf': [1, 2, 4]}
+
+
+#GridSearchCV
+grid_search = GridSearchCV(rf, param_grid, cv=5, scoring='roc_auc', verbose=2, n_jobs=-1)
+grid_search.fit(X_train, y_train)
+print("Best parameters: ", grid_search.best_params_)
+
+rf_best = RandomForestClassifier(n_estimators=grid_search.best_params_['n_estimators'], max_depth=grid_search.best_params_['max_depth'], min_samples_split=grid_search.best_params_['min_samples_split'], min_samples_leaf=grid_search.best_params_['min_samples_leaf'], random_state=42)
+rf_best.fit(X_train, y_train)
+
+#Prediction Making
