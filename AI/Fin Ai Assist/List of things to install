@@ -1,0 +1,5 @@
+pip install neuralintents: To easily create chatbots bypass the whole machine learning
+pip install matplotlib: visualization
+pip install mplfinance: for candlestick charts
+pip install pandas: working in frames
+pip install pandas-datareader
