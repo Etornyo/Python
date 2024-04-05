@@ -1,0 +1,143 @@
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score, mean_squared_error
+from sklearn.model_selection import train_test_split, GridSearchCV, KFold
+from lightgbm import LGBMRegressor
+
+
+
+
+def process_prediction(pred):
+    final_pred = np.zeros_like(pred)  # Initialize final predictions array with zeros
+
+    # Apply comparisons element-wise
+    final_pred[pred < -0.5] = -1.0
+    final_pred[(pred >= -0.5) & (pred <= 0.5)] = 0.0
+    final_pred[pred > 0.5] = 1.0
+
+    return final_pred
+
+
+
+
+# Load the data
+train = pd.read_csv('Train.csv').dropna(axis=0)  # Read in train, ignoring one row with missing data
+test = pd.read_csv('Test.csv').fillna('')  # Read in test
+
+
+
+
+# Split data into training and validation sets
+df_train, df_valid = train_test_split(train, test_size=0.2, random_state=42)
+
+
+# Create a TF-IDF vectorizer
+vectorizer = TfidfVectorizer()
+
+
+
+
+
+# Transform text data into TF-IDF features
+X_train = vectorizer.fit_transform(df_train['safe_text'])
+X_valid = vectorizer.transform(df_valid['safe_text'])
+X_test = vectorizer.transform(test['safe_text'])
+
+
+
+
+# Define labels
+y_train = df_train['label']
+y_valid = df_valid['label']
+
+
+
+
+kf = KFold(n_splits=10, shuffle=True, random_state=2)
+
+errlgb = []  # Initialize list to store RMSE values
+y_pred_totlgb = []  # Initialize list to store total predictions
+
+for fold_, (train_idx, valid_idx) in enumerate(kf.split(X_train)):
+    X_train_fold, X_valid_fold = X_train[train_idx], X_train[valid_idx]
+    y_train_fold, y_valid_fold = y_train.iloc[train_idx], y_train.iloc[valid_idx]
+    
+    # Model
+    model = LGBMRegressor(
+                        num_leaves=31,
+                        learning_rate=0.05,
+                        n_estimators=2000,
+                        objective='regression',
+                        metric='rmse',
+                        early_stopping_rounds=100,  # Adjust the number of rounds as needed
+                        random_state=42,
+                        force_col_wise=True
+                            )
+                
+    model.fit(X_train_fold,
+            y_train_fold,
+            eval_set=[(X_valid_fold, y_valid_fold)],
+            eval_metric='rmse'
+            )
+    
+    y_pred_prob = model.predict(X_test, num_iteration=model.best_iteration_)
+    y_pred = process_prediction(y_pred_prob)  # Convert probabilities to regression
+    
+    rmse = np.sqrt(mean_squared_error(y_valid_fold, process_prediction(model.predict(X_valid_fold))))
+    print("RMSE: ", rmse)
+    errlgb.append(rmse)
+    y_pred_totlgb.append(y_pred)
+
+
+
+# Perform grid search
+
+# Define evaluation set
+eval_set = [(X_valid_fold, y_valid_fold)]
+
+# Define parameter grid for grid search
+param_grid = {
+    'iterations': [100, 200],
+    'learning_rate': [0.01, 0.1],
+    'depth': [4, 6],
+    'l2_leaf_reg': [1, 3]
+}
+
+# Initialize CatBoost classifier
+grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=3,
+                        scoring='neg_mean_squared_error', verbose=2)
+grid_search.fit(X_train_fold, y_train_fold, eval_set=eval_set)
+
+
+
+#  Print best parameters and corresponding RMSE for each fold
+print(f"Fold {fold_ + 1} Best Parameters:", grid_search.best_params_)
+print(f"Fold {fold_ + 1} Best RMSE:", np.sqrt(-grid_search.best_score_))
+
+
+# Use best model for predictions
+best_model = grid_search.best_estimator_
+valid_preds_catboost = best_model.predict(X_valid_fold)
+
+
+# Calculate RMSE on the validation set for each fold
+rmse_catboost = np.sqrt(mean_squared_error(y_valid_fold, valid_preds_catboost))
+print(f"Fold {fold_ + 1} Validation RMSE (LGBM):", rmse_catboost)
+
+
+
+# Make predictions on the test set for each fold
+test_preds_catboost = best_model.predict(X_test)
+
+
+
+
+# Make a submission dataframe for CatBoost for each fold (optional)
+sub_catboost = pd.DataFrame({
+        'tweet_id': test['tweet_id'],
+        'label': test_preds_catboost.reshape(-1)
+    })
+sub_catboost.to_csv(f'lgbm_submission_gridsearch_fold_.csv', index=False)
+sub_catboost.head()
+
